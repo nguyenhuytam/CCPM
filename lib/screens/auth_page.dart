@@ -1,4 +1,5 @@
 import 'package:app_hello/components/login_form.dart';
+import 'package:app_hello/components/sing_up_form.dart';
 import 'package:app_hello/components/social_button.dart';
 
 import 'package:app_hello/untils/text.dart';
@@ -14,6 +15,7 @@ class AuthPage extends StatefulWidget{
 }
 
 class AuthPageState extends State<AuthPage>{
+  bool isSingIn = true;
   @override
   Widget build(BuildContext context){
     Config().init(context);
@@ -37,7 +39,9 @@ class AuthPageState extends State<AuthPage>{
               ),
               Config.spaceSmall,
               Text(
-                AppText.enText['signIn_text']!,
+                isSingIn
+                ? AppText.enText['signIn_text']!
+                : AppText.enText['register_text']!,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -45,9 +49,10 @@ class AuthPageState extends State<AuthPage>{
               ),
               Config.spaceSmall,
               //login components here
-              const LoginForm(),
+              isSingIn ? LoginForm() : SingUpForm(),
               Config.spaceSmall,
-              Center(
+              isSingIn
+              ? Center(
                 child: TextButton(
                   onPressed: () {},
                   child: Text(
@@ -59,7 +64,7 @@ class AuthPageState extends State<AuthPage>{
                     ), 
                   ),
                 ),
-              ),
+              ):Container(),
               //add social button sign in
               const Spacer(),
               Center(
@@ -87,19 +92,28 @@ class AuthPageState extends State<AuthPage>{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                  AppText.enText['signUp_text']!,
+                  isSingIn
+                  ? AppText.enText['signUp_text']!
+                  : AppText.enText['registered_text']!,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.normal,
                     color: Colors.grey.shade500,
                   ),
                 ),
-                const Text(
-                  'Sign Up',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
+                TextButton(
+                  onPressed: (){
+                    setState(() {
+                      isSingIn = !isSingIn;
+                    });
+                  },
+                  child: Text(
+                    isSingIn ? 'Sign Up': 'Sing In',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                    ),
                   ),
                 )
 

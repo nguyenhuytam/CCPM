@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:app_hello/components/appointment_card.dart';
 import 'package:app_hello/components/doctor_card.dart';
+import 'package:app_hello/providers/dio_provider.dart';
 import 'package:app_hello/untils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({Key? key}): super(key: key);
@@ -12,6 +16,7 @@ class HomePage extends StatefulWidget{
 }
 
 class HomePageState extends State<HomePage>{
+  Map<String, dynamic> user = {};
   List<Map<String, dynamic>> medCat = [
     {
       "icon":FontAwesomeIcons.userDoctor,
@@ -38,6 +43,30 @@ class HomePageState extends State<HomePage>{
       "category":"Dental",
     },
   ];
+
+  Future<void> getData() async{
+    //get token from share preferences// nhận mã thông báo từ tùy chọn chia sẻ
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token') ?? '';
+
+    if (token.isNotEmpty && token != ''){
+      //get user data
+      final response = await DioProvider().getUser(token);
+      if(response != null){
+        setState(() {
+          //json decode// giải mã json
+          user = json.decode(response);
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context){
     Config().init(context);
@@ -52,18 +81,18 @@ class HomePageState extends State<HomePage>{
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[// add 1 consst
-                const Row(
+              children: <Widget>[
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
+                  children:  <Widget>[
                     Text(
-                      'Amanda', //hard core the user's name at first
-                      style: TextStyle(
+                      user ['name'],
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       child: CircleAvatar(
                         radius: 30,
                         backgroundImage: AssetImage('assets/profile1.jpg'), // insert image here
