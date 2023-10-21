@@ -90,13 +90,24 @@ class _SingUpFormState extends State<SingUpForm> {
               onPressed: () async{
                 //let's try sign in manually // hãy thử đăng nhập thủ công
                 // login here
-                final token = await DioProvider().getToken(_emailContronller.text, _passContronller.text);
+                final userRegistrantion = await DioProvider().registerUser(
+                  _nameContronller.text,
+                  _emailContronller.text,
+                  _passContronller.text);
+
+                // if register success, proceed to login// nếu đăng ký thành công, tiến hành đăng nhập
+                if(userRegistrantion){
+                  final token = await DioProvider().getToken(_emailContronller.text, _passContronller.text);
           
-                if(token){
-                  auth.loginSuccess();// update login status
-                  //rediret to main page
-                  MyApp.navigatorKey.currentState!.pushNamed('main');
-                }
+                  if(token){
+                    auth.loginSuccess();// update login status
+                    //rediret to main page
+                    MyApp.navigatorKey.currentState!.pushNamed('main');
+                  }
+                }else {
+                  print('register not successful');
+                }  
+                
                 // Navigator.of(context).pushNamed('main');
               }, 
               disable: false);
@@ -107,3 +118,11 @@ class _SingUpFormState extends State<SingUpForm> {
     );
   }
 }
+
+//Bingo, as you can see, the new user has been registered succesfully//Bingo, như bạn thấy, người dùng mới đã được đăng ký thành công
+
+//up next, will continue about insert doctor details and booking process in to database//tiếp theo, sẽ tiếp tục chèn thông tin chi tiết về bác sĩ và quy trình đăng ký vào cơ sở dữ liệu
+// as well getting all info from database// đồng thời lấy tất cả thông tin từ database
+
+// now, let's get all doctor details and display on Mobile screen
+// bây giờ, hãy lấy tất cả thông tin chi tiết về bác sĩ và hiển thị trên màn hình Di động

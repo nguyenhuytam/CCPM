@@ -56,6 +56,7 @@ class HomePageState extends State<HomePage>{
         setState(() {
           //json decode// giải mã json
           user = json.decode(response);
+          print(user); // let's try to print this
         });
       }
     }
@@ -71,7 +72,12 @@ class HomePageState extends State<HomePage>{
   Widget build(BuildContext context){
     Config().init(context);
     return Scaffold(
-      body: Padding(
+      //if user is empty, then return progress indication// nếu người dùng trống thì trả về chỉ báo tiến trình
+      body: user.isEmpty
+      ? const Center(
+        child: CircularProgressIndicator(),
+      ) 
+      : Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 15,
           vertical: 15,
@@ -182,3 +188,16 @@ class HomePageState extends State<HomePage>{
     );
   }
 }
+
+
+//now as debug console shown, the user's data is returned//bây giờ khi bảng điều khiển gỡ lỗi hiển thị, dữ liệu của người dùng được trả về
+//as well as doctor details// cũng như thông tin chi tiết về bác sĩ
+//you may insert some doctor data, before you reach this step//bạn có thể chèn một số dữ liệu bác sĩ trước khi đến bước này
+
+// and, as you can see, there is an error while waiting user data returned
+// và như bạn thấy, đã xảy ra lỗi trong khi chờ dữ liệu người dùng được trả về
+
+//that is because the 'user' is Null, while waiting respone form database
+//aand yoy may set a circular progress indicator while waiting respone
+// đó là vì 'người dùng' là Null, trong khi chờ cơ sở dữ liệu biểu mẫu phản hồi
+//và bạn có thể đặt chỉ báo tiến trình vòng tròn trong khi chờ phản hồi
