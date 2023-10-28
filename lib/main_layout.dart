@@ -18,6 +18,7 @@ class MainLayoutState extends State<MainLayout>{
   Widget build(BuildContext context){
     return Scaffold(
       body: PageView(
+        controller: _page,
         onPageChanged: ((value){
           setState(() {
             // update page index when tab pressed/switch page

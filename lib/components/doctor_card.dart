@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 
 // change this to stateless
 class DoctorCard extends StatelessWidget{
-  const DoctorCard({Key? key, required this.route}): super(key: key);
+  const DoctorCard({Key? key, required this.route, required this.doctor}): super(key: key);
   
+   // recevice doctor details// nhận thông tin chi tiết về bác sĩ
   final String route;
+  final Map<String, dynamic> doctor;
+  
   @override
   Widget build(BuildContext context){
     Config().init(context);
@@ -20,23 +23,28 @@ class DoctorCard extends StatelessWidget{
           children: [
             SizedBox(
               width: Config.widthSize *0.33,
-              child: Image.asset('assets/doctor_2.jpg', fit: BoxFit.fill,),
+              child: Image.network(
+                "http://127.0.0.1:8000${doctor['doctor_profile']}",
+                fit: BoxFit.fill,
+              ),
             ),
-            Flexible(child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            Flexible(
+              child: Padding(
+              padding: 
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget> [
-                  const Text(
-                    'Nguyen quoc huy',
-                    style: TextStyle(
+                  Text(
+                    "Dr ${doctor['doctor_name']}",
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text(
-                    'Denal',
-                    style: TextStyle(
+                  Text(
+                    "${doctor['category']}",
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -64,7 +72,8 @@ class DoctorCard extends StatelessWidget{
       onTap: () {
         // redirect to doctor datails page//chuyển hướng đến trang dữ liệu bác sĩ
         //redirect to doctor details//chuyển hướng đến chi tiết bác sĩ
-        Navigator.of(context).pushNamed(route);
+        //pass the details to details pade//chuyển chi tiết tới trang chi tiết
+        Navigator.of(context).pushNamed(route, arguments: doctor);
       }, 
       )
       

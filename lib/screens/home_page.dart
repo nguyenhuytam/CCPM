@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:app_hello/components/appointment_card.dart';
 import 'package:app_hello/components/doctor_card.dart';
@@ -17,6 +18,7 @@ class HomePage extends StatefulWidget{
 
 class HomePageState extends State<HomePage>{
   Map<String, dynamic> user = {};
+  Map<String, dynamic> doctor = {};
   List<Map<String, dynamic>> medCat = [
     {
       "icon":FontAwesomeIcons.userDoctor,
@@ -56,7 +58,12 @@ class HomePageState extends State<HomePage>{
         setState(() {
           //json decode// giải mã json
           user = json.decode(response);
-          print(user); // let's try to print this
+
+          for(var doctorData in user['doctor']){
+            if(doctorData['appointments'] != null){
+              doctor = doctorData;
+            }
+          }
         });
       }
     }
@@ -161,7 +168,30 @@ class HomePageState extends State<HomePage>{
                     Config.spaceSmall,
                     // display appoinment card here // hien thi the hen o day
                     // let's create appoinment card widget // hay tao the tien ich cuoc hen
-                    AppointmentCard(),
+                    doctor.isNotEmpty
+                      ? AppointmentCard(
+                        doctor: doctor,
+                        color: Config.primaryColor,
+                      )
+                      : Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Text(
+                              'No Appointments Today',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     Config.spaceSmall,
                     const Text(
                       'Top Doctors', 
@@ -174,9 +204,10 @@ class HomePageState extends State<HomePage>{
                     // let's build doctor card
                     Config.spaceSmall,
                     Column(
-                      children: List.generate(10, (index){
-                        return  const DoctorCard(
+                      children: List.generate(user['doctor'].length, (index){
+                        return DoctorCard(
                           route: 'doc_details',
+                          doctor: user['doctor'][index],
                         );
                       }),
                     )
@@ -201,3 +232,9 @@ class HomePageState extends State<HomePage>{
 //aand yoy may set a circular progress indicator while waiting respone
 // đó là vì 'người dùng' là Null, trong khi chờ cơ sở dữ liệu biểu mẫu phản hồi
 //và bạn có thể đặt chỉ báo tiến trình vòng tròn trong khi chờ phản hồi
+
+// and now let's list oit all doctor on home page
+// và bây giờ hãy liệt kê tất cả các bác sĩ trên trang chủ
+
+// today, working on the doctor dashboard// hôm nay, làm việc trên bảng thông tin bác sĩ
+//displaying the total uncomping appointment, total patients and rating/reviews//hiển thị tổng số cuộc hẹn chưa được tính, tổng số bệnh nhân và xếp hạng/đánh giá

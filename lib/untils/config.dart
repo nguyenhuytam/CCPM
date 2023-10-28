@@ -34,7 +34,7 @@ class Config{
   static const focusBorder =  OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(8)),
     borderSide: BorderSide(
-      color: Colors.greenAccent,
+      color: Colors.blueAccent,
     )
   );
 
@@ -45,5 +45,5 @@ class Config{
     )
   );
 
-  static const primaryColor = Colors.greenAccent;
+  static const primaryColor = Colors.blueAccent;
 }

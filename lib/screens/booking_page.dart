@@ -1,8 +1,12 @@
 import 'package:app_hello/components/button.dart';
 import 'package:app_hello/components/custom_appbar.dart';
+import 'package:app_hello/main.dart';
+import 'package:app_hello/models/booking_datetime_converted.dart';
+import 'package:app_hello/providers/dio_provider.dart';
 import 'package:app_hello/untils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class BookingPage extends StatefulWidget {
@@ -21,9 +25,22 @@ class _BookingPageState extends State<BookingPage> {
   bool _isWeekend = false;
   bool _dateSelected = false;
   bool _timeSelected = false;
+  String? token; // gettoken for insert booking date and time into database// gettoken để chèn ngày giờ đặt phòng vào cơ sở dữ liệu
+
+  Future<void> getToken() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token') ?? '';
+  }
+
+  @override
+  void initState(){
+    getToken();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     Config().init(context);
+    final doctor = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       appBar: CustomAppBar(
         appTitle: 'Appointment',
@@ -113,8 +130,24 @@ class _BookingPageState extends State<BookingPage> {
                 child: Button(
                   width: double.infinity,
                   title: 'Make Appointment',
-                  onPressed: (){
-                    Navigator.of(context).pushNamed('success_booking');
+                  onPressed: () async{
+                    //press button here to store booking details, like date and time//nhấn nút ở đây để lưu trữ chi tiết đặt chỗ, như ngày và giờ
+                    //so now, let's build appointment controller first// vậy bây giờ, hãy xây dựng bộ điều khiển cuộc hẹn trước
+                    // convert date/day/time into string first// chuyển đổi ngày/ngày/giờ thành chuỗi trước
+                    final getDate = DateConverted.getDate(_currentDay);
+                    final getDay = DateConverted.getDay(_currentDay.weekday);
+                    final getTime = DateConverted.getTime(_currenIndex!);
+
+                    //post using dio
+                    //pass all details togetder with doctor id and token// chuyển tất cả các chi tiết cùng với id bác sĩ và mã thông báo
+                    final booking = await DioProvider().bookAppointment(
+                      getDate, getDay, getTime, doctor['doctor_id'], token!);
+
+                    //if booking return status code 200, then redirect to success booking page// nếu đặt phòng trả về mã trạng thái 200, sau đó chuyển hướng đến trang đặt phòng thành công
+                    //now, let's try to make an appointment//bây giờ chúng ta thử hẹn nhau nhé
+                    if (booking == 200){
+                      MyApp.navigatorKey.currentState!.pushNamed('success_booking');
+                    }  
                   },
                   disable: _timeSelected && _dateSelected ? false : true,
                 ),
@@ -172,3 +205,4 @@ class _BookingPageState extends State<BookingPage> {
 // and booking button will be disable if date or time is not selected// và nút đặt chỗ sẽ bị tắt nếu ngày hoặc giờ không được chọn
 // as well as if selecting weekend// cũng như nếu chọn cuối tuần
 // and now, lets build success page for booking// và bây giờ, hãy xây dựng trang thành công để đặt phòng
+// as some booking details if you want, to demonstrate the appointment page// như một số chi tiết đặt phòng nếu bạn muốn, để minh họa trang cuộc hẹn

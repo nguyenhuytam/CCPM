@@ -17,7 +17,7 @@ class LoginFormState extends State<LoginForm>{
   final _formKey = GlobalKey<FormState>();
   final _emailContronller = TextEditingController();
   final _passContronller = TextEditingController();
-  bool obsecurePass = true;
+  bool obscurePass  = true;
   @override
   Widget build(BuildContext context){
     return  Form(
@@ -42,7 +42,7 @@ class LoginFormState extends State<LoginForm>{
             controller: _passContronller,
             keyboardType: TextInputType.visiblePassword,
             cursorColor: Config.primaryColor,
-            obscureText: obsecurePass,
+            obscureText: obscurePass,
             decoration: InputDecoration(
               hintText: 'Password',
               labelText: 'Password',
@@ -51,9 +51,9 @@ class LoginFormState extends State<LoginForm>{
               prefixIconColor: Config.primaryColor,
               suffixIcon: IconButton(
                 onPressed: () {
-                  obsecurePass = !obsecurePass;
+                  obscurePass  = !obscurePass ;
                 }, 
-                icon: obsecurePass
+                icon: obscurePass 
                     ?const Icon(
                        Icons.visibility_off_outlined,
                        color: Colors.black38,

@@ -38,7 +38,7 @@ class _SingUpFormState extends State<SingUpForm> {
               prefixIconColor: Config.primaryColor,
             ),
           ),
-          Config.spaceSmall,
+          SizedBox(height: 4),
           TextFormField(
             controller: _emailContronller,
             keyboardType: TextInputType.emailAddress,
@@ -51,7 +51,7 @@ class _SingUpFormState extends State<SingUpForm> {
               prefixIconColor: Config.primaryColor,
             ),
           ),
-          Config.spaceSmall,
+          SizedBox(height: 3),
           TextFormField(
             controller: _passContronller,
             keyboardType: TextInputType.visiblePassword,
@@ -79,7 +79,7 @@ class _SingUpFormState extends State<SingUpForm> {
                 ),
             ),
           ),
-          Config.spaceSmall,
+          SizedBox(height: 4),
           //login button
           // wrap this button with Consumer
           Consumer<AuthModel>(

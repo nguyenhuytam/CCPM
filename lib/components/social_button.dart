@@ -22,8 +22,8 @@ class ScoialButton extends StatelessWidget{
           children: <Widget>[
             Image.asset(
               'assets/$social.png', // dowload social icon
-              width: 40,
-              height: 40,
+              width: 30,
+              height: 30,
             ),
             Text(
               social.toUpperCase(),
