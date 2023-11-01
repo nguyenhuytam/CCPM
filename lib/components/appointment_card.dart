@@ -1,5 +1,9 @@
+import 'package:app_hello/main.dart';
+import 'package:app_hello/providers/dio_provider.dart';
 import 'package:app_hello/untils/config.dart';
 import 'package:flutter/material.dart';
+import 'package:rating_dialog/rating_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class AppointmentCard extends StatefulWidget{
   const AppointmentCard({Key? key, required this.doctor, required this.color}): super(key: key);
 
@@ -85,11 +89,59 @@ class AppointmentCardState extends State<AppointmentCard>{
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                       ),
+                      // add rating dialong here
+                      // before that, add a new dio provider
+                      onPressed: () {
+                        showDialog(
+                          context: context, 
+                          builder: (context){
+                            return RatingDialog(
+                              initialRating: 1.0,
+                              title: const Text(
+                                'Rate the Doctor',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              message: const Text(
+                                'Please help us to rate our Doctor',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                ),
+                              ),
+                              image: const FlutterLogo(size: 100,),
+                              submitButtonText: 'Submit',
+                              commentHint: 'Your Reviews',
+                              onSubmitted: (response) async{
+                                final SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                                final token =
+                                  prefs.getString('token') ?? '';
+                                final rating = await DioProvider()
+                                  .storeReviews(
+                                    response.comment,
+                                    response.rating,
+                                    widget.doctor['appointments']['id'],// this is appointments id
+                                    widget.doctor['doc_id'],
+                                    token
+                                  );
+                                // if successful, then refresh
+                                if (rating == 200 && rating != ''){
+                                  MyApp.navigatorKey.currentState!
+                                    .pushNamed('main');
+                                }  
+                              });
+                            
+                          });
+                      },
                       child: const Text(
                         'Completed',
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () {},
+                      
                     ),
                   )
                 ],
@@ -150,3 +202,7 @@ class ScheduleCard extends StatelessWidget{
 
 // Appointment Card is done
 // the information here will be replaced by API data after database setup // thông tin ở đây sẽ được thay thế bằng dữ liệu API sau khi thiết lập cơ sở dữ liệu
+
+// as you can see, new rating/review has been added// như bạn có thể thấy, xếp hạng/đánh giá mới đã được thêm vào
+// however, the appointment still there// tuy nhiên, cuộc hẹn vẫn còn đó
+// maybe some error at controller// có thể có lỗi ở bộ điều khiển

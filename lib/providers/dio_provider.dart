@@ -100,6 +100,24 @@ class DioProvider{
       return error;
     }
   }
+
+  //store rating details
+  Future<dynamic> storeReviews(
+      String reviews, double ratings, int id, int doctor , String token) async {
+    try{
+      var respone = await Dio().post('http://127.0.0.1:8000/api/reviews', 
+      data: {'ratings': ratings, 'reviews':reviews, 'appointment_id': id, 'doctor_id': doctor},
+      options: Options(headers: {'Authorization' : 'Bearer $token'}));
+ 
+    if (respone.statusCode == 200 && respone.data != ''){  // should not be empty
+        return respone.statusCode;
+      }else{
+        return 'Error';
+      }
+    }catch(error){
+      return error;
+    }
+  }
 }
 
 
