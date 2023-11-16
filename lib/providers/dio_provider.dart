@@ -12,12 +12,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
+// http://127.0.0.1:8000
 class DioProvider{
   //get token
   Future<dynamic> getToken(String email, String password) async{
     try{
-    var response = await Dio().post('http://127.0.0.1:8000/api/login',
+    var response = await Dio().post('https://1471-1-55-202-83.ngrok-free.app/api/login',
       data: {'email':email, 'password': password});
 
       // if request successfully, then return token// nếu yêu cầu thành công thì trả về token
@@ -35,13 +35,13 @@ class DioProvider{
     }
   }
   
-  // the url "http://127.0.0.1:8000" is local database// url "http://127.0.0.1:8000" là cơ sở dữ liệu cục bộ
+  // the url "https://1471-1-55-202-83.ngrok-free.app" is local database// url "https://1471-1-55-202-83.ngrok-free.app" là cơ sở dữ liệu cục bộ
   // and "api/login" is the end point that will be set later in Laravel// và "api/login" là điểm cuối sẽ được đặt sau trong Laravel
 
   // get user data// lấy dữ liệu người dùng
   Future<dynamic> getUser(String token) async {
     try{
-      var user = await Dio().get('http://127.0.0.1:8000/api/user', options: Options(headers: {'Authorization' : 'Bearer $token'}));
+      var user = await Dio().get('https://1471-1-55-202-83.ngrok-free.app/api/user', options: Options(headers: {'Authorization' : 'Bearer $token'}));
     // if request successfully, then erturn user data // nếu yêu cầu thành công thì trả lại dữ liệu người dùng   
     if (user.statusCode == 200 && user.data != ''){
         return json.encode(user.data);
@@ -50,11 +50,13 @@ class DioProvider{
       return error;
     }
   }
+
+
   
   // register new user
   Future<dynamic> registerUser(String username, String email, String password) async {
     try{
-      var user = await Dio().post('http://127.0.0.1:8000/api/register', 
+      var user = await Dio().post('https://1471-1-55-202-83.ngrok-free.app/api/register', 
       data: {'name': username, 'email':email, 'password': password});
     // if register successfully, return true   
     if (user.statusCode == 201 && user.data != ''){
@@ -71,7 +73,7 @@ class DioProvider{
   Future<dynamic> bookAppointment(
       String date, String day, String time, int doctor , String token) async {
     try{
-      var respone = await Dio().post('http://127.0.0.1:8000/api/book', 
+      var respone = await Dio().post('https://1471-1-55-202-83.ngrok-free.app/api/book', 
       data: {'date': date, 'day':day, 'time': time, 'doctor_id': doctor},
       options: Options(headers: {'Authorization' : 'Bearer $token'}));
  
@@ -88,7 +90,7 @@ class DioProvider{
   //retrieve booking details
   Future<dynamic> getAppointments(String token) async {
     try{
-      var respone = await Dio().get('http://127.0.0.1:8000/api/appointments', 
+      var respone = await Dio().get('https://1471-1-55-202-83.ngrok-free.app/api/appointments', 
       options: Options(headers: {'Authorization' : 'Bearer $token'}));
  
     if (respone.statusCode == 200 && respone.data != ''){
@@ -105,11 +107,46 @@ class DioProvider{
   Future<dynamic> storeReviews(
       String reviews, double ratings, int id, int doctor , String token) async {
     try{
-      var respone = await Dio().post('http://127.0.0.1:8000/api/reviews', 
+      var respone = await Dio().post('https://1471-1-55-202-83.ngrok-free.app/api/reviews', 
       data: {'ratings': ratings, 'reviews':reviews, 'appointment_id': id, 'doctor_id': doctor},
       options: Options(headers: {'Authorization' : 'Bearer $token'}));
  
     if (respone.statusCode == 200 && respone.data != ''){  // should not be empty
+        return respone.statusCode;
+      }else{
+        return 'Error';
+      }
+    }catch(error){
+      return error;
+    }
+  }
+
+  //store fav doctor
+  // update the fav list into database// cập nhật danh sách yêu thích vào cơ sở dữ liệu
+  Future<dynamic> storeFavDoc(
+      String reviews, double ratings, int id, int doctor , String token) async {
+    try{
+      var respone = await Dio().post('https://1471-1-55-202-83.ngrok-free.app/reviews', 
+      data: {'ratings': ratings, 'reviews':reviews, 'appointment_id': id, 'doctor_id': doctor},
+      options: Options(headers: {'Authorization' : 'Bearer $token'}));
+ 
+    if (respone.statusCode == 200 && respone.data != ''){  // should not be empty
+        return respone.statusCode;
+      }else{
+        return 'Error';
+      }
+    }catch(error){
+      return error;
+    }
+  }
+  
+  //logout
+  Future<dynamic> logout(String token) async {
+    try{
+      var respone = await Dio().post('https://1471-1-55-202-83.ngrok-free.app/api/logout', 
+      options: Options(headers: {'Authorization' : 'Bearer $token'}));
+ 
+    if (respone.statusCode == 200 && respone.data != ''){  
         return respone.statusCode;
       }else{
         return 'Error';
@@ -127,7 +164,7 @@ class DioProvider{
 
 //   Future<String?> getToken(String email, String password) async {
 //     try {
-//       final response = await _dio.post('http://127.0.0.1:8000/api/login',
+//       final response = await _dio.post('https://1471-1-55-202-83.ngrok-free.app/api/login',
 //           data: {'email': email, 'password': password});
 
 //       if (response.statusCode == 200) {
@@ -146,7 +183,7 @@ class DioProvider{
 
 //   Future<String?> getUser(String token) async {
 //     try {
-//       final response = await _dio.get('http://127.0.0.1:8000/api/user',
+//       final response = await _dio.get('https://1471-1-55-202-83.ngrok-free.app/api/user',
 //           options: Options(headers: {'Authorization': 'Bearer $token'}));
 
 //       if (response.statusCode == 200) {

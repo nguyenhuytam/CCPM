@@ -19,7 +19,8 @@ class BookingPage extends StatefulWidget {
 class _BookingPageState extends State<BookingPage> {
   //declaration
   CalendarFormat _format = CalendarFormat.month;
-  DateTime _focusDay = DateTime.now();
+  DateTime _focusDay = DateTime.now().add(const Duration(days: 1));
+  
   DateTime _currentDay = DateTime.now();
   int? _currenIndex;
   bool _isWeekend = false;
@@ -43,8 +44,8 @@ class _BookingPageState extends State<BookingPage> {
     final doctor = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       appBar: CustomAppBar(
-        appTitle: 'Appointment',
-        icon: const FaIcon(Icons.arrow_back_ios),
+        appTitle: 'Đặt lịch',
+        icon: const FaIcon(Icons.arrow_back_ios), iconSize: 20,
       ),
       body: CustomScrollView(
         slivers: <Widget> [
@@ -57,7 +58,7 @@ class _BookingPageState extends State<BookingPage> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 25), 
                   child: Center(
                     child: Text(
-                      'Select Consultation Time',
+                      'Chọn thời gian tư vấn',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -75,7 +76,7 @@ class _BookingPageState extends State<BookingPage> {
                   horizontal: 10, vertical: 30),
                   alignment: Alignment.center,
                   child: const Text(
-                    'Weekend is not available, please select another date',
+                    'Cuối tuần không rảnh, vui lòng chọn ngày khác',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -129,7 +130,7 @@ class _BookingPageState extends State<BookingPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 80),
                 child: Button(
                   width: double.infinity,
-                  title: 'Make Appointment',
+                  title: 'Đặt lịch hẹn',
                   onPressed: () async{
                     //press button here to store booking details, like date and time//nhấn nút ở đây để lưu trữ chi tiết đặt chỗ, như ngày và giờ
                     //so now, let's build appointment controller first// vậy bây giờ, hãy xây dựng bộ điều khiển cuộc hẹn trước
@@ -174,7 +175,7 @@ class _BookingPageState extends State<BookingPage> {
         ),
       ),
       availableCalendarFormats: const{
-        CalendarFormat.month: 'Month',
+        CalendarFormat.month: 'Tháng',
       },
       onFormatChanged:(format) {
         setState(() {
@@ -184,7 +185,9 @@ class _BookingPageState extends State<BookingPage> {
       onDaySelected: ((selecteDay, focuseDay){
         setState(() {
           _currentDay = selecteDay;
-          _focusDay = focuseDay;
+          _focusDay = DateTime.now().add(const Duration(days: 1)); // Đặt _focusDay thành ngày mai
+
+           print("Giá trị mới của _focusDay: $_focusDay");
           _dateSelected = true;
 
           //check if weekend is selected//kiểm tra xem cuối tuần có được chọn không
@@ -198,6 +201,7 @@ class _BookingPageState extends State<BookingPage> {
         });
       }),
     );
+    
   }
 }
 

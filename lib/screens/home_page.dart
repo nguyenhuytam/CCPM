@@ -1,12 +1,14 @@
 import 'dart:convert';
-import 'dart:html';
+//import 'dart:html';
 
 import 'package:app_hello/components/appointment_card.dart';
 import 'package:app_hello/components/doctor_card.dart';
+import 'package:app_hello/models/auth_model.dart';
 import 'package:app_hello/providers/dio_provider.dart';
 import 'package:app_hello/untils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget{
@@ -19,30 +21,31 @@ class HomePage extends StatefulWidget{
 class HomePageState extends State<HomePage>{
   Map<String, dynamic> user = {};
   Map<String, dynamic> doctor = {};
+  //List<dynamic> favList = [];
   List<Map<String, dynamic>> medCat = [
     {
       "icon":FontAwesomeIcons.userDoctor,
-      "category":"General",
+      "category":"Tổng quát",
     },
     {
       "icon":FontAwesomeIcons.heartPulse,
-      "category":"Cardiology",
+      "category":"Khoa tim",
     },
     {
       "icon":FontAwesomeIcons.lungs,
-      "category":"Respirations",
+      "category":"Hô hấp",
     },
     {
       "icon":FontAwesomeIcons.hand,
-      "category":"Dermatology",
+      "category":"Da liễu",
     },
     {
       "icon":FontAwesomeIcons.personPregnant,
-      "category":"Gynecology",
+      "category":"Phụ khoa",
     },
     {
       "icon":FontAwesomeIcons.teeth,
-      "category":"Dental",
+      "category":"Nha khoa",
     },
   ];
 
@@ -78,6 +81,14 @@ class HomePageState extends State<HomePage>{
   @override
   Widget build(BuildContext context){
     Config().init(context);
+    // user = Provider.of<AuthModel>(context, listen: false).getUser;
+    // doctor = Provider.of<AuthModel>(context, listen: false).getAppointment;
+    // favList = Provider.of<AuthModel>(context, listen: false).getFav;
+
+    // print('user data is: $user');
+    // print('favorite liste is: $favList');
+
+    // now, let check out the data
     return Scaffold(
       //if user is empty, then return progress indication// nếu người dùng trống thì trả về chỉ báo tiến trình
       body: user.isEmpty
@@ -159,7 +170,7 @@ class HomePageState extends State<HomePage>{
                     ),
                     Config.spaceSmall,
                     const Text(
-                      'Appointment Today', 
+                      'Lịch hẹn ngay hôm nay', 
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -183,7 +194,7 @@ class HomePageState extends State<HomePage>{
                           child: Padding(
                             padding: EdgeInsets.all(20),
                             child: Text(
-                              'No Appointments Today',
+                              'Không có lịch hẹn ngay hôm nay',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -194,7 +205,7 @@ class HomePageState extends State<HomePage>{
                       ),
                     Config.spaceSmall,
                     const Text(
-                      'Top Doctors', 
+                      'Bác sĩ hàng đầu', 
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

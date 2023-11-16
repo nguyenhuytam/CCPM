@@ -19,9 +19,9 @@ class _DoctorDetailsState extends State<DoctorDetails>{
     // get arguments passed from doctor card// lấy đối số được truyền từ thẻ bác sĩ
     final doctor = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(//create a custom app bar widget// tạo tiện ích thanh ứng dụng tùy chỉnh
-      appBar: CustomAppBar(
-        appTitle: 'Doctor Details',
-        icon: const FaIcon(Icons.arrow_back_ios),
+       appBar: CustomAppBar(
+        appTitle: 'Chi tiết bác sĩ',
+        icon: const FaIcon(Icons.arrow_back_ios,),
         actions: [
           //Favarite Button
           IconButton(
@@ -35,7 +35,7 @@ class _DoctorDetailsState extends State<DoctorDetails>{
               color: Colors.red,
           ),
           )
-        ],
+        ], iconSize: 20,
       ), 
       body: SafeArea(
         child: Column(
@@ -50,7 +50,7 @@ class _DoctorDetailsState extends State<DoctorDetails>{
               padding: const EdgeInsets.all(20),
               child: Button(
                 width: double.infinity,
-                title: 'Book Appointment',
+                title: 'Đặt lịch hẹn',
                 onPressed: (){
                   //navigate to booking page//điều hướng đến trang đặt phòng
                   //let's create that//hãy tạo ra cái đó
@@ -83,7 +83,7 @@ class AboutDoctor extends StatelessWidget{
         children: <Widget>[
           CircleAvatar(
             radius: 65.0,
-            backgroundImage: NetworkImage("http://127.0.0.1:8000${doctor['doctor_profile']}"),
+            backgroundImage: NetworkImage("https://1471-1-55-202-83.ngrok-free.app${doctor['doctor_profile']}"),
             backgroundColor: Colors.white,
           ),
           Config.spaceMedium,
@@ -99,7 +99,7 @@ class AboutDoctor extends StatelessWidget{
           SizedBox(
             width: Config.widthSize *0.75,
             child: const Text(
-              'MBBS (International Medical Univercity Malaysia), MRCP (Royal College of Physicians, United Kingdom )',
+              'MBBS (Đại học Y khoa Quốc tế Việt Nam), MRCP (Trường Cao đẳng Bác sĩ Hoàng gia, Vương quốc Anh)',
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 15,
@@ -111,7 +111,7 @@ class AboutDoctor extends StatelessWidget{
           SizedBox(
             width: Config.widthSize *0.75,
             child: const Text(
-              'Sarawak General Hospital',
+              'Bệnh viện Đa khoa',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
@@ -149,7 +149,7 @@ class DetailBody extends StatelessWidget{
           ),
           Config.spaceMedium,
             const Text(
-              'About Dortor',
+              'Thông tin bác sĩ',
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
             ),
             Config.spaceSmall,
@@ -180,21 +180,21 @@ class DoctorInfo extends StatelessWidget{
       children:  <Widget>[
         //lets extract to another class// cho phép trích xuất sang lớp khác
         InfoCard(
-          label: 'Patients',
+          label: 'Người bệnh',
           value: '$patients',
         ),
         const SizedBox(
           width: 15,
         ),
         InfoCard(
-          label: 'Experiences',
+          label: 'Kinh nghiệm',
           value: '$exp',
         ),
         const SizedBox(
           width: 15,
         ),
         const InfoCard(
-          label: 'Rating',
+          label: 'Xếp hạng',
           value: '4.6',
         ),
       ],

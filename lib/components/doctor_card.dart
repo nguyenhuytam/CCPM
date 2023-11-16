@@ -24,7 +24,7 @@ class DoctorCard extends StatelessWidget{
             SizedBox(
               width: Config.widthSize *0.33,
               child: Image.network(
-                "http://127.0.0.1:8000${doctor['doctor_profile']}",
+                "https://1471-1-55-202-83.ngrok-free.app${doctor['doctor_profile']}",
                 fit: BoxFit.fill,
               ),
             ),

@@ -37,6 +37,7 @@ dependencies:
   rating_dialog: ^2.0.4
   shared_preferences: ^2.0.15
   provider: ^6.0.4  
+  intl: ^0.17.0
   
   # above are the packages i will use in this app
 

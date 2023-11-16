@@ -100,6 +100,7 @@ class _SingUpFormState extends State<SingUpForm> {
                   final token = await DioProvider().getToken(_emailContronller.text, _passContronller.text);
           
                   if(token){
+                    // ignore sign up first
                     auth.loginSuccess();// update login status
                     //rediret to main page
                     MyApp.navigatorKey.currentState!.pushNamed('main');

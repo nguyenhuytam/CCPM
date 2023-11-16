@@ -33,10 +33,10 @@ class AppointmentCardState extends State<AppointmentCard>{
               // add 1 const
               Row(
                 children: [
-                  CircleAvatar(
-                    backgroundImage: 
-                    NetworkImage("http://127.0.0.1:8000${widget.doctor['doctor_profile']}"), // insert doctor frofile
-                  ),
+                  // CircleAvatar(
+                  //   backgroundImage: 
+                  //   NetworkImage("https://9c44-1-55-202-187.ngrok-free.app${widget.doctor['doctor_profile']}"), // insert doctor frofile
+                  // ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -206,3 +206,7 @@ class ScheduleCard extends StatelessWidget{
 // as you can see, new rating/review has been added// như bạn có thể thấy, xếp hạng/đánh giá mới đã được thêm vào
 // however, the appointment still there// tuy nhiên, cuộc hẹn vẫn còn đó
 // maybe some error at controller// có thể có lỗi ở bộ điều khiển
+
+// for appointments card state management, you may use streamBuilder// để quản lý trạng thái thẻ cuộc hẹn, bạn có thể sử dụng streamingBuilder
+// so that it can listen status, and chande the state instantly// để nó có thể nghe trạng thái và thay đổi trạng thái ngay lập tức
+// up text, will continue add in user profile editing and favorite doctor list// lên văn bản, sẽ tiếp tục thêm vào phần chỉnh sửa hồ sơ người dùng và danh sách bác sĩ yêu thích

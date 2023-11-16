@@ -1,5 +1,7 @@
 import 'package:app_hello/screens/appointment_page.dart';
+import 'package:app_hello/screens/fav_page.dart';
 import 'package:app_hello/screens/home_page.dart';
+import 'package:app_hello/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -25,9 +27,11 @@ class MainLayoutState extends State<MainLayout>{
             currentPage = value;
           });
         }),
-        children: const <Widget>[
-          HomePage(),
-          AppointmentPage(),
+        children: <Widget>[
+          const HomePage(),
+          FavPage(),
+          const AppointmentPage(),
+          ProfilePage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -48,8 +52,16 @@ class MainLayoutState extends State<MainLayout>{
             label: 'Home'
           ),
           BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.solidHeart),
+            label: 'Favorite'
+          ),
+          BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.solidCalendarCheck),
             label: 'Appointments'
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.solidUser),
+            label: 'Profile'
           ),
         ],
       ),
@@ -61,3 +73,6 @@ class MainLayoutState extends State<MainLayout>{
 // as you can see, page view has done
 // and there are two main pages show
 // let's coplete the home page
+
+// add favorite doctor and profile page here
+// thêm trang hồ sơ và bác sĩ yêu thích tại đây

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget{
-  const CustomAppBar({Key? key, this.appTitle, this.route, this.icon, this.actions  }): super(key: key);
+  const CustomAppBar({Key? key, this.appTitle, this.route, this.icon, this.actions, required double iconSize  }): super(key: key);
   @override
   Size get preferredSize => const Size.fromHeight(60);//default height of app bar is 60// chiều cao mặc định của thanh ứng dụng là 60
 

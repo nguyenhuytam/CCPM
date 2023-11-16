@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_hello/components/button.dart';
 import 'package:app_hello/main.dart';
 import 'package:app_hello/models/auth_model.dart';
@@ -5,6 +7,7 @@ import 'package:app_hello/providers/dio_provider.dart';
 import 'package:app_hello/untils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget{
   const LoginForm({Key? key}): super(key: key);
@@ -37,7 +40,7 @@ class LoginFormState extends State<LoginForm>{
               prefixIconColor: Config.primaryColor,
             ),
           ),
-          Config.spaceSmall,
+          
           TextFormField(
             controller: _passContronller,
             keyboardType: TextInputType.visiblePassword,
@@ -76,12 +79,41 @@ class LoginFormState extends State<LoginForm>{
               onPressed: () async{
                 //let's try sign in manually // hãy thử đăng nhập thủ công
                 // login here
-                final token = await DioProvider().getToken(_emailContronller.text, _passContronller.text);
+                final token = await DioProvider().
+                  getToken(_emailContronller.text, _passContronller.text);
           
                 if(token){
                   auth.loginSuccess();// update login status
                   //rediret to main page
-                  MyApp.navigatorKey.currentState!.pushNamed('main');
+
+                  //grap user data here// lấy dữ liệu người dùng tại đây
+                  // final SharedPreferences prefs = await SharedPreferences.getInstance();
+                  // final tokenValue = prefs.getString('token') ?? '';
+
+                  // if (tokenValue.isNotEmpty && tokenValue != ''){
+                  //   //get user data
+                  //   final response = await DioProvider().getUser(tokenValue);
+                  //   if(response != null){
+                  //     setState(() {
+                  //       //json decode// giải mã json
+                  //       Map<String, dynamic> appointment = {};
+                  //       final user = json.decode(response);
+
+                  //       for(var doctorData in user['doctor']){
+                  //         if(doctorData['appointments'] != null){
+                  //           appointment = doctorData;
+                  //         }
+                  //       }
+
+                  //       auth.loginSuccess(user, appointment);
+                  //       MyApp.navigatorKey.currentState!.pushNamed('main');
+                  //       // after grab all user data, and update to auth model// sau khi lấy tất cả dữ liệu người dùng và cập nhật lên mô hình xác thực
+                  //       // then we have to get user data from auth model// sau đó chúng ta phải lấy dữ liệu người dùng từ mô hình xác thực
+                  //       // to all widget tree// tới tất cả cây widget
+                  //     });
+                  //   }
+                  // }
+                MyApp.navigatorKey.currentState!.pushNamed('main');  
                 }
                 // Navigator.of(context).pushNamed('main');
               }, 

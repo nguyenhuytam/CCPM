@@ -1,29 +1,31 @@
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 // this basically is to convert date/day/time from calendar to string// về cơ bản việc này là chuyển đổi ngày/ngày/giờ từ lịch sang chuỗi
-class DateConverted{
-  static String getDate(DateTime date){
-    return DateFormat.yMd().format(date);
+class DateConverted {
+  static String getDate(DateTime date) {
+    initializeDateFormatting("vi_VN", null);
+    return DateFormat.yMd("vi_VN").format(date);
   }
 
   static String getDay(int day){
     switch(day){
       case 1:
-        return 'Monday';
+        return 'Thứ 2';
       case 2:
-        return 'Tuesday';
+        return 'Thứ 3';
       case 3:
-        return 'Wednesday';
+        return 'Thứ 4';
       case 4:
-        return 'Thursday';
+        return 'Thứ 5';
       case 5:
-        return 'Friday';
+        return 'Thứ 6';
       case 6:
-        return 'Saturday';
+        return 'Thứ 7';
       case 7:
-        return 'Sunday';
+        return 'Chủ nhật';
       default:
-        return 'Sunday';           
+        return 'Chủ nhật';           
     }
   }
 

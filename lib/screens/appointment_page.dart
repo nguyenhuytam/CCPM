@@ -64,7 +64,7 @@ class AppointmentPageState extends State<AppointmentPage>{
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget> [
             const Text(
-              'Appointment Schedule',
+              'Lịch trình cuộc hẹn',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
@@ -161,7 +161,7 @@ class AppointmentPageState extends State<AppointmentPage>{
                             children: [
                               CircleAvatar(
                                 backgroundImage:
-                                NetworkImage("http://127.0.0.1:8000$schedule['doctor_profile']"),
+                                NetworkImage("https://1471-1-55-202-83.ngrok-free.app${schedule['doctor_profile']}"),
                               ),
                               const SizedBox(
                                 width: 10,
@@ -207,7 +207,7 @@ class AppointmentPageState extends State<AppointmentPage>{
                                 child: OutlinedButton(
                                   onPressed: (){},
                                   child: const Text(
-                                    'Cancel',
+                                    'Hủy',
                                     style: TextStyle(color: Config.primaryColor),
                                   ),
                                 ),
@@ -222,7 +222,7 @@ class AppointmentPageState extends State<AppointmentPage>{
                                   ),
                                   onPressed: (){},
                                   child: const Text(
-                                    'Reschedule',
+                                    'Sắp xếp lại',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ),
