@@ -1,16 +1,11 @@
-# app_hello
+## Thông tin cá nhân
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Họ và tên: Nguyễn Huy Tâm
+- MSSV: 2011062586
+- Lớp : 20DTH_N1_06
+- Năm học: 2020-2024
+- Khoa Công Nghệ Thông Tin
+- Ngành học: Công nghệ thông tin
+- Chuyên ngành: Công nghệ phần mềm
+- Sở thích: Chơi game
+- Hoạt động: Hutech It Open Day
